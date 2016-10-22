@@ -15,10 +15,12 @@ const configuration = require('feathers-configuration');
 
 const api = require('./api');
 
+const app = feathers();
+
+app.configure(configuration(path.join(__dirname, '..')));
+
 // https://github.com/vuejs/vue/blob/next/packages/vue-server-renderer/README.md#why-use-bundlerenderer
 const createBundleRenderer = require('vue-server-renderer').createBundleRenderer
-
-const app = feathers();
 
 // parse index.html template
 const html = (() => {
@@ -52,8 +54,6 @@ function createRenderer (bundle) {
     })
   })
 }
-
-app.configure(configuration(path.join(__dirname, '..')));
 
 const ssr = (req, res) => {
   if (!renderer) {
@@ -91,7 +91,7 @@ const ssr = (req, res) => {
     throw err
   })
 }
-console.log(app.get('public'));
+
 app.use(compress())
   .use('/api', api)
   .use('/dist', serveStatic( resolve('../dist') ))
