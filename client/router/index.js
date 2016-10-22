@@ -4,6 +4,7 @@ import Router from 'vue-router'
 Vue.use(Router)
 
 import { createListView } from '../views/CreateListView'
+import HomeView from '../views/HomeView.vue'
 import ItemView from '../views/ItemView.vue'
 import UserView from '../views/UserView.vue'
 import NotFoundView from '../views/NotFoundView.vue'
@@ -12,6 +13,7 @@ export default new Router({
   mode: 'history',
   scrollBehavior: () => ({ y: 0 }),
   routes: [
+    { path: '/', component: HomeView },
     { path: '/top/:page(\\d+)?', component: createListView('top') },
     { path: '/new/:page(\\d+)?', component: createListView('new') },
     { path: '/show/:page(\\d+)?', component: createListView('show') },
@@ -19,7 +21,6 @@ export default new Router({
     { path: '/job/:page(\\d+)?', component: createListView('job') },
     { path: '/item/:id(\\d+)', component: ItemView },
     { path: '/user/:id', component: UserView },
-    { path: '/', redirect: '/top'},
     { path: '*', component: NotFoundView }
   ]
 })
