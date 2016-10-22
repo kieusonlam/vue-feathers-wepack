@@ -24,7 +24,7 @@ const createBundleRenderer = require('vue-server-renderer').createBundleRenderer
 
 // parse index.html template
 const html = (() => {
-  const template = fs.readFileSync(resolve('../index.html'), 'utf-8')
+  const template = fs.readFileSync(resolve('../public/index.html'), 'utf-8')
   const i = template.indexOf('{{ APP }}')
   // styles are injected dynamically via vue-style-loader in development
   const style = isProd ? '<link rel="stylesheet" href="/dist/styles.css">' : ''
