@@ -1,7 +1,7 @@
 const feathers = require('feathers-client');
 const io = require('socket.io-client');
 
-const storage = (global.TYPE === 'CLIENT') ? window.localStorage : null;
+const storage = null;
 
 const socket = io('http://localhost:3030');
 export const app = feathers()
