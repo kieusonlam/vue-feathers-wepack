@@ -2,6 +2,9 @@ import Vue from 'vue'
 import Vuex from 'vuex'
 import { fetchItem, fetchItems, fetchIdsByType, fetchUser } from './api'
 
+import auth from './modules/auth'
+import posts from './modules/posts'
+
 Vue.use(Vuex)
 
 const store = new Vuex.Store({
@@ -94,6 +97,11 @@ const store = new Vuex.Store({
     activeItems (state, getters) {
       return getters.activeIds.map(id => state.items[id]).filter(_ => _)
     }
+  },
+
+  modules: {
+    auth,
+    posts
   }
 })
 

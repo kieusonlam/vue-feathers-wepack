@@ -14,11 +14,11 @@ const socketio = require('feathers-socketio');
 const middleware = require('./middleware');
 const services = require('./services');
 
-const api = feathers();
+const app = feathers();
 
-api.configure(configuration(path.join(__dirname, '..')));
+app.configure(configuration(path.join(__dirname, '..')));
 
-api.use(compress())
+app.use(compress())
   .options('*', cors())
   .use(cors())
   .use(bodyParser.json())
@@ -29,4 +29,4 @@ api.use(compress())
   .configure(services)
   .configure(middleware);
 
-module.exports = api;
+module.exports = app;

@@ -31,7 +31,7 @@
 import Spinner from '../components/Spinner.vue'
 import Comment from '../components/Comment.vue'
 
-function fetchItem (store) {
+const fetchItem = (store) => {
   return store.dispatch('FETCH_ITEMS', {
     ids: [store.state.route.params.id]
   })
@@ -52,7 +52,7 @@ export default {
 }
 </script>
 
-<style lang="stylus">  
+<style lang="stylus">
 .item-view-header
   background-color #fff
   padding 1.8em 2em 1em
@@ -71,7 +71,7 @@ export default {
   background-color #fff
   margin-top 10px
   padding 0 2em
-  
+
 .item-view-comments-header
   margin 0
   font-size 1.1em
@@ -81,7 +81,7 @@ export default {
   list-style-type none
   padding 0
   margin 0
-  
+
 @media (max-width 600px)
   .item-view-header
     h1

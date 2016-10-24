@@ -5,6 +5,7 @@
         <router-link to="/" exact>
           <img class="logo" src="./assets/logo.png" alt="logo">
         </router-link>
+        <router-link to="/login">Login</router-link>
         <router-link to="/top">Top</router-link>
         <router-link to="/new">New</router-link>
         <router-link to="/show">Show</router-link>
@@ -60,7 +61,7 @@ a
     &.router-link-active
       color #fff
       font-weight 400
-    &:nth-child(6)
+    &:last-child
       margin-right 0
   .github
     color #fff

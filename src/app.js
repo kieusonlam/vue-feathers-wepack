@@ -95,7 +95,7 @@ const ssr = (req, res) => {
 app.use(compress())
   .use('/api', api)
   .use('/dist', serveStatic( resolve('../dist') ))
-  .use('*', ssr)
+  .get('*', ssr)
   .use(favicon( path.join(app.get('public'), 'favicon.ico') ));
 
 module.exports = app;
