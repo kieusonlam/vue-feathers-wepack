@@ -5,7 +5,7 @@ export default {
   state: {
     error: null,
     token: null,
-    isAuthenticated: false,
+    authenticated: false,
     isAuthenticating: false,
     profile: null
   },
@@ -62,6 +62,7 @@ export default {
       state.token = result.token
       state.error = null
       state.isAuthenticating = false
+      state.authenticated = true
     },
 
     LOGOUT: (state) => {

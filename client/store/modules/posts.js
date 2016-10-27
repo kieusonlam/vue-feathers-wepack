@@ -1,4 +1,5 @@
 import { app } from '../feathers'
+import axios from 'axios'
 
 export default {
   state: {
@@ -16,6 +17,18 @@ export default {
       }).then(result => {
         commit('SET_POSTS', { result })
       })
+    },
+
+    ADD_NEW_POST: ({ commit, dispatch, state }, { title, content }) => {
+      app.service('api/posts').create({
+        title,
+        content
+      }).then((result) => {
+        console.log(result)
+        dispatch('FETCH_POSTS')
+      }).catch((err) => {
+        console.log(err)
+      })
     }
   },
   mutations: {
@@ -24,6 +37,10 @@ export default {
       state.limit = result.limit
       state.skip = result.skip
       state.data = result.data
+    },
+
+    SET_NEW_POST: (state, {result}) => {
+
     }
   },
   getters: {

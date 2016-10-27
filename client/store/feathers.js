@@ -10,3 +10,5 @@ export const app = feathers()
   .configure(feathers.authentication({
     storage
   }));
+
+socket.on('reconnect', () => { app.authenticate() });
