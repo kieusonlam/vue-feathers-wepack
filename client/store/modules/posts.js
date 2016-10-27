@@ -1,5 +1,4 @@
 import { app } from '../feathers'
-import axios from 'axios'
 
 export default {
   state: {
