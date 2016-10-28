@@ -11,7 +11,7 @@ export default {
   },
   actions: {
     CHECK_LOGIN: ({ commit, state }) => {
-      return app.authenticate().then((result) => {
+      app.authenticate().then((result) => {
         commit('SET_PROFILE', result)
         commit('LOGIN_SUCCESS', result)
       })
