@@ -1,5 +1,4 @@
 import { app } from '../feathers'
-import axios from 'axios'
 
 export default {
   state: {
@@ -10,7 +9,7 @@ export default {
   },
   actions: {
     FETCH_POSTS: ({ commit, state }) => {
-      app.service('api/posts').find({
+      return app.service('api/posts').find({
         query: {
           $sort: { createdAt: -1 },
         }
@@ -20,7 +19,7 @@ export default {
     },
 
     ADD_NEW_POST: ({ commit, dispatch, state }, { title, content }) => {
-      app.service('api/posts').create({
+      return app.service('api/posts').create({
         title,
         content
       }).then((result) => {
