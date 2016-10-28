@@ -11,10 +11,12 @@ export default {
   },
   actions: {
     CHECK_LOGIN: ({ commit, state }) => {
+
       app.authenticate().then((result) => {
         commit('SET_PROFILE', result)
         commit('LOGIN_SUCCESS', result)
-      })
+      }).catch((error) => {})
+      
     },
 
     SIGNUP: ({ commit }, { email, password }) => {
@@ -22,27 +24,27 @@ export default {
     },
 
     LOGIN: ({ commit, state }, { email, password }) => {
-        return new Promise((resolve, reject) => {
-          commit('LOGIN_REQUEST')
+      return new Promise((resolve, reject) => {
+        commit('LOGIN_REQUEST')
 
-          app.authenticate({
-            type: 'local',
-            'email': email,
-            'password': password
-          }).then(function(result){
-            commit('SET_PROFILE', result)
-            commit('LOGIN_SUCCESS', result)
-            resolve()
-          }).catch(function(error){
-            commit('LOGIN_FAILURE', error)
-            return reject(error)
-          })
-
+        app.authenticate({
+          type: 'local',
+          'email': email,
+          'password': password
+        }).then((result) => {
+          commit('SET_PROFILE', result)
+          commit('LOGIN_SUCCESS', result)
+          resolve()
+        }).catch((error) => {
+          commit('LOGIN_FAILURE', error)
+          return reject(error)
         })
+
+      })
     },
 
     LOGOUT: ({ commit }) => {
-      app.logout().then(() => {
+      app.logout().then((result) => {
         commit('LOGOUT')
         return Promise.resolve()
       })
@@ -67,6 +69,8 @@ export default {
 
     LOGOUT: (state) => {
       state.token = null
+      state.authenticated = false
+      state.profile = null
     },
 
     SET_PROFILE: (state, result) => {

@@ -13,6 +13,9 @@
       <button type="button" @click="onSignUp()">
           Sign Up
       </button>
+      <button type="button" @click="onLogOut()">
+          Log Out
+      </button>
     </form>
 
     <pre>{{ this.$store.state.auth }}</pre>
@@ -55,6 +58,9 @@ export default {
       // .then(() => {
       //   this.$router.push({ name: 'index' })
       // })
+    },
+    onLogOut() {
+      this.$store.dispatch('LOGOUT')
     }
   },
   preFetch: checkLogin,
