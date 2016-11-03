@@ -40,7 +40,6 @@
     "feathers-mongoose": "^3.5.3",
     "feathers-rest": "^1.5.0",
     "feathers-socketio": "^1.4.1",
-    "firebase": "^2.4.2",
     "lru-cache": "^4.0.1",
     "mongoose": "^4.6.4",
     "passport": "^0.3.2",
