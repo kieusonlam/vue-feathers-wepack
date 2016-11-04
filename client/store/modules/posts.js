@@ -3,15 +3,19 @@ import { app } from '../feathers'
 export default {
   state: {
     total: 0,
-    limit: 0,
+    limit: 5,
     skip: 0,
     data: []
   },
+
   actions: {
-    FETCH_POSTS: ({ commit, state }) => {
+    FETCH_POSTS: ({ commit, state }, { page }) => {
+      const skipPage = state.limit * (page - 1)
+      console.log(page)
       return app.service('api/posts').find({
         query: {
           $sort: { createdAt: -1 },
+          $skip: skipPage
         }
       }).then(result => {
         commit('SET_POSTS', { result })
@@ -24,12 +28,13 @@ export default {
         content
       }).then((result) => {
         console.log(result)
-        dispatch('FETCH_POSTS')
+        dispatch('FETCH_POSTS', 1)
       }).catch((err) => {
         console.log(err)
       })
     }
   },
+
   mutations: {
     SET_POSTS: (state, { result }) => {
       state.total = result.total
@@ -42,6 +47,7 @@ export default {
 
     }
   },
+
   getters: {
 
   }

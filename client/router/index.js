@@ -11,7 +11,7 @@ export default new Router({
   mode: 'history',
   scrollBehavior: () => ({ y: 0 }),
   routes: [
-    { path: '/', component: HomeView },
+    { path: '/:page(\\d+)?', component: HomeView },
     { path: '/login', component: LoginView },
     { path: '*', component: NotFoundView }
   ]

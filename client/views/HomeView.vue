@@ -17,6 +17,15 @@
         {{ post.content }}
       </div>
     </div>
+
+    <div class="paging">
+      <router-link v-if="currentPage > 1" :to="'/' + (currentPage - 1)">&lt; prev</router-link>
+      <a v-else class="disabled">&lt; prev</a>
+      <span>{{ currentPage }}/{{ totalPage }}</span>
+      <router-link v-if="currentPage < totalPage" :to="'/' + (currentPage + 1)">more &gt;</router-link>
+      <a v-else class="disabled">more &gt;</a>
+    </div>
+    <pre>{{ currentPage }}</pre>
     <pre>{{ this.$store.state.posts }}</pre>
   </div>
 </template>
@@ -24,7 +33,7 @@
 <script>
 import { mapState } from 'vuex'
 
-const fetchPosts = (store) => store.dispatch('FETCH_POSTS')
+const fetchPosts = (store, page) => store.dispatch('FETCH_POSTS', { page })
 
 export default {
   name: 'home-view',
@@ -34,12 +43,13 @@ export default {
       content: null
     }
   },
-  computed: mapState({
-    posts: (state) => state.posts.data,
-    isAuthenticating: (state) => state.auth.isAuthenticating
-  }),
+  computed: {
+    posts () { return this.$store.state.posts.data },
+    totalPage () { return Math.ceil(this.$store.state.posts.total / this.$store.state.posts.limit) },
+    currentPage () { return Number(this.$store.state.route.params.page) || Math.ceil((this.$store.state.posts.skip - 1) / this.$store.state.posts.limit) + 1 }
+  },
   methods: {
-    onPostSubmit() {
+    onPostSubmit () {
       this.$store.dispatch('ADD_NEW_POST', {
         title: this.title,
         content: this.content,
@@ -48,7 +58,14 @@ export default {
   },
   preFetch: fetchPosts,
   beforeMount () {
-    fetchPosts(this.$store)
+    if (this.$root._isMounted) {
+      fetchPosts(this.$store, this.currentPage)
+    }
+  },
+  watch: {
+    '$route' (to, from) {
+      fetchPosts(this.$store, this.currentPage)
+    }
   }
 }
 </script>

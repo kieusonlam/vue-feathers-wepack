@@ -50,6 +50,7 @@ export default {
       })
     }
   },
+
   mutations: {
     LOGIN_REQUEST: (state) => {
       state.isAuthenticating = true
@@ -77,6 +78,7 @@ export default {
       state.profile = { email: result.data.email }
     }
   },
+  
   getters: {
     isAuthenticated: (state) => {
       app.authenticate().then((result) => {
