@@ -1,53 +1,70 @@
 <template>
   <div class="home-view">
-    <h1>Home</h1>
-    <p>Blogpost below</p>
+    <spinner :show="loading"></spinner>
 
-    <form @submit.prevent="onPostSubmit">
-      <input type="title" placeholder="Post Title" autofocus required v-model="title">
-      <input type="content" placeholder="Post Content" required v-model="content">
-      <button type="submit">Submit</button>
-    </form>
-
-    <div class="post" v-for="post in posts">
-      <div class="posts-title">
-        {{ post.title }}
-      </div>
-      <div class="posts-content">
-        {{ post.content }}
-      </div>
+    <div class="box">
+      <h1>Home</h1>
+      <p>Blogpost below</p>
+      <form @submit.prevent="onPostSubmit">
+        <input type="title" placeholder="Post Title" autofocus required v-model="title">
+        <input type="content" placeholder="Post Content" required v-model="content">
+        <button type="submit">Submit</button>
+      </form>
     </div>
 
-    <div class="paging">
+    <div class="news-list-nav">
       <router-link v-if="currentPage > 1" :to="'/' + (currentPage - 1)">&lt; prev</router-link>
       <a v-else class="disabled">&lt; prev</a>
       <span>{{ currentPage }}/{{ totalPage }}</span>
       <router-link v-if="currentPage < totalPage" :to="'/' + (currentPage + 1)">more &gt;</router-link>
       <a v-else class="disabled">more &gt;</a>
     </div>
-    <pre>{{ currentPage }}</pre>
-    <pre>{{ this.$store.state.posts }}</pre>
+
+    <transition :name="transition">
+      <div class="news-list" :key="totalPage" v-if="totalPage > 0">
+        <transition-group tag="div" name="item">
+          <item v-for="item in posts" :key="item._id" :item="item">
+          </item>
+        </transition-group>
+      </div>
+    </transition>
+
   </div>
 </template>
 
 <script>
-import { mapState } from 'vuex'
+import Spinner from '../components/Spinner.vue'
+import Item from '../components/Item.vue'
 
 const fetchPosts = (store, page) => store.dispatch('FETCH_POSTS', { page })
 
 export default {
   name: 'home-view',
+
+  components: {
+    Spinner,
+    Item
+  },
+
+  props: {
+    type: String
+  },
+
   data () {
     return {
       title: null,
-      content: null
+      content: null,
+      loading: false,
+      transition: 'slide-left'
     }
   },
+
   computed: {
     posts () { return this.$store.state.posts.data },
     totalPage () { return Math.ceil(this.$store.state.posts.total / this.$store.state.posts.limit) },
     currentPage () { return Number(this.$store.state.route.params.page) || Math.ceil((this.$store.state.posts.skip - 1) / this.$store.state.posts.limit) + 1 }
   },
+
   methods: {
     onPostSubmit () {
       this.$store.dispatch('ADD_NEW_POST', {
@@ -56,12 +73,15 @@ export default {
       })
     }
   },
+
   preFetch: fetchPosts,
+
   beforeMount () {
     if (this.$root._isMounted) {
       fetchPosts(this.$store, this.currentPage)
     }
   },
+
   watch: {
     '$route' (to, from) {
       fetchPosts(this.$store, this.currentPage)
@@ -74,17 +94,60 @@ export default {
 .home-view
   background-color #fff
   box-sizing border-box
-  padding 2em 3em
+  padding-top 45px
 
-.post
-  background aliceblue
-  padding 5px
-  margin-bottom 5px
+.box
+  background-color #fff
+  padding 20px 30px
+  border-bottom 1px solid #eee
+  position relative
+  line-height 20px
 
-form
-  margin-bottom 20px
+.news-list-nav, .news-list
+  background-color #fff
+  border-radius 2px
 
-pre
-  padding 20px
-  background #ededed
+.news-list-nav
+  padding 15px 30px
+  position fixed
+  text-align center
+  top 55px
+  left 0
+  right 0
+  z-index 998
+  box-shadow 0 1px 2px rgba(0,0,0,.1)
+  a
+    margin 0 1em
+  .disabled
+    color #ccc
+
+.news-list
+  position absolute
+  margin 30px 0
+  width 100%
+  transition all .5s cubic-bezier(.55,0,.1,1)
+
+.slide-left-enter, .slide-right-leave-active
+  opacity 0
+  transform translate(30px, 0)
+
+.slide-left-leave-active, .slide-right-enter
+  opacity 0
+  transform translate(-30px, 0)
+
+.item-move, .item-enter-active, .item-leave-active
+  transition all .5s cubic-bezier(.55,0,.1,1)
+
+.item-enter
+  opacity 0
+  transform translate(30px, 0)
+
+.item-leave-active
+  position absolute
+  opacity 0
+  transform translate(30px, 0)
+
+@media (max-width 600px)
+  .news-list
+    margin 10px 0
 </style>
