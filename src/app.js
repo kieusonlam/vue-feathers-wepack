@@ -65,10 +65,9 @@ const ssr = (req, res) => {
   const renderStream = renderer.renderToStream(context)
   let firstChunk = true
 
-  res.write(html.head)
-
   renderStream.on('data', chunk => {
     if (firstChunk) {
+      res.write(html.head)
       // embed initial store state
       if (context.initialState) {
         res.write(
@@ -88,7 +87,9 @@ const ssr = (req, res) => {
   })
 
   renderStream.on('error', err => {
-    throw err
+    // Render Error Page or Redirect
+    res.status(500).end('Internal Error 500')
+    console.error(`error during render : ${req.url}`)
   })
 }
 
