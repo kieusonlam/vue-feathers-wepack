@@ -90,6 +90,7 @@ const ssr = (req, res) => {
     // Render Error Page or Redirect
     res.status(500).end('Internal Error 500')
     console.error(`error during render : ${req.url}`)
+    console.error(err)
   })
 }
 
