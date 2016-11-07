@@ -1,10 +1,8 @@
 <template>
   <div class="news-item">
-    <span class="title">{{ item.title }}</span>
+    <router-link :to="'/item/' + item._id">{{ item.title }}</router-link>
     <br>
     <span class="content">{{ item.content }}</span>
-    <br>
-    <span class="content">{{ item._id }}</span>
   </div>
 </template>
 

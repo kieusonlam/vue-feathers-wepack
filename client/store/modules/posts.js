@@ -5,13 +5,13 @@ export default {
     total: 0,
     limit: 5,
     skip: 0,
-    data: []
+    data: [],
+    single: null
   },
 
   actions: {
     FETCH_POSTS: ({ commit, state }, { page }) => {
       const skipPage = state.limit * (page - 1)
-      console.log(page)
       return app.service('api/posts').find({
         query: {
           $sort: { createdAt: -1 },
@@ -36,7 +36,7 @@ export default {
 
     FETCH_POST: ({ commit, state }, { id }) => {
       return app.service('api/posts').get(id).then(result => {
-        commit('SET_POSTS', { result })
+        commit('SET_POST', { result })
       })
     }
   },
@@ -49,8 +49,8 @@ export default {
       state.data = result.data
     },
 
-    SET_NEW_POST: (state, {result}) => {
-
+    SET_POST: (state, { result }) => {
+      state.single = result
     }
   },
 
