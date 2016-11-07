@@ -36,7 +36,7 @@
 import Spinner from '../components/Spinner.vue'
 import Item from '../components/Item.vue'
 
-const fetchPosts = (store, page) => store.dispatch('FETCH_POSTS', { page })
+const fetchPosts = (store) => store.dispatch('FETCH_POSTS', { page: store.state.route.params.page })
 
 export default {
   name: 'home-view',
@@ -62,7 +62,7 @@ export default {
   computed: {
     posts () { return this.$store.state.posts.data },
     totalPage () { return Math.ceil(this.$store.state.posts.total / this.$store.state.posts.limit) },
-    currentPage () { return Number(this.$store.state.route.params.page) || Math.ceil((this.$store.state.posts.skip - 1) / this.$store.state.posts.limit) + 1 }
+    currentPage () { return Number(this.$store.state.route.params.page) || 1 }
   },
 
   methods: {
@@ -78,13 +78,13 @@ export default {
 
   beforeMount () {
     if (this.$root._isMounted) {
-      fetchPosts(this.$store, this.currentPage)
+      fetchPosts(this.$store)
     }
   },
 
   watch: {
     '$route' (to, from) {
-      fetchPosts(this.$store, this.currentPage)
+      fetchPosts(this.$store)
     }
   }
 }

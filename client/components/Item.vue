@@ -3,6 +3,8 @@
     <span class="title">{{ item.title }}</span>
     <br>
     <span class="content">{{ item.content }}</span>
+    <br>
+    <span class="content">{{ item._id }}</span>
   </div>
 </template>
 

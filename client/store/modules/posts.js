@@ -32,6 +32,12 @@ export default {
       }).catch((err) => {
         console.log(err)
       })
+    },
+
+    FETCH_POST: ({ commit, state }, { id }) => {
+      return app.service('api/posts').get(id).then(result => {
+        commit('SET_POSTS', { result })
+      })
     }
   },
 
