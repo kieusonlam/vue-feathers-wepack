@@ -37,7 +37,7 @@ export default {
           resolve()
         }).catch((error) => {
           commit('LOGIN_FAILURE', error)
-          return reject(error)
+          reject(error)
         })
 
       })
