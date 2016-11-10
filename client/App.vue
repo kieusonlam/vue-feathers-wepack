@@ -6,7 +6,7 @@
           <img class="logo" src="./assets/logo.png" alt="logo">
         </router-link>
         <router-link to="/login">Login</router-link>
-        <a class="github" href="https://github.com/vuejs/vue-hackernews-2.0" target="_blank">
+        <a class="github" href="https://github.com/kieusonlam/vue-feathers-wepack" target="_blank">
           Built with Vue.js
         </a>
       </div>
@@ -16,6 +16,17 @@
     </transition>
   </div>
 </template>
+
+<script>
+const checkLogin = (store) => store.dispatch('CHECK_LOGIN')
+
+export default {
+  name: 'app-view',
+  beforeMount () {
+    checkLogin(this.$store)
+  }
+}
+</script>
 
 <style lang="stylus">
 body

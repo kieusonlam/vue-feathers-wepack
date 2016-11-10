@@ -10,6 +10,7 @@
         <input type="content" placeholder="Post Content" required v-model="content">
         <button type="submit">Submit</button>
       </form>
+      <pre v-if="error">{{ error }}</pre>
     </div>
 
     <div class="news-list-nav">
@@ -55,7 +56,8 @@ export default {
       title: null,
       content: null,
       loading: false,
-      transition: 'slide-left'
+      transition: 'slide-left',
+      error: null
     }
   },
 
@@ -70,7 +72,11 @@ export default {
       this.$store.dispatch('ADD_NEW_POST', {
         title: this.title,
         content: this.content,
+      }).catch((err) => {
+        this.error = err
       })
+      this.title = null;
+      this.content = null;
     }
   },
 
@@ -84,7 +90,10 @@ export default {
 
   watch: {
     '$route' (to, from) {
+      this.loading = true
+      this.transition = to > from ? 'slide-left' : 'slide-right'
       fetchPosts(this.$store)
+      this.loading = false
     }
   }
 }

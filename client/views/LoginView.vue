@@ -38,7 +38,8 @@ export default {
   },
   computed: mapState({
     error: (state) => state.auth.error,
-    isAuthenticating: (state) => state.auth.isAuthenticating
+    isAuthenticating: (state) => state.auth.isAuthenticating,
+    isAuthenticated: (state) => state.auth.authenticated
   }),
   methods: {
     onSignUp() {
@@ -55,17 +56,13 @@ export default {
         email: this.email,
         password: this.password,
       })
-      // .then(() => {
-      //   this.$router.push({ name: 'index' })
-      // })
+      .then(() => {
+        this.$router.push({ path: '/' })
+      })
     },
     onLogOut() {
       this.$store.dispatch('LOGOUT')
     }
-  },
-  preFetch: checkLogin,
-  beforeMount () {
-    checkLogin(this.$store)
   }
 }
 </script>

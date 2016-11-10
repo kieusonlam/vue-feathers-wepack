@@ -23,14 +23,16 @@ export default {
     },
 
     ADD_NEW_POST: ({ commit, dispatch, state }, { title, content }) => {
-      return app.service('api/posts').create({
-        title,
-        content
-      }).then((result) => {
-        console.log(result)
-        dispatch('FETCH_POSTS', 1)
-      }).catch((err) => {
-        console.log(err)
+      return new Promise((resolve, reject) => {
+        app.service('api/posts').create({
+          title,
+          content
+        }).then((result) => {
+          resolve(result)
+          dispatch('FETCH_POSTS', 1)
+        }).catch((err) => {
+          reject(err.message)
+        })
       })
     },
 
