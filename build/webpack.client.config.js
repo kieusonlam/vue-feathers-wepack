@@ -15,6 +15,7 @@ if (process.env.NODE_ENV === 'production') {
   // Use ExtractTextPlugin to extract CSS into a single file
   // so it's applied on initial render
   const ExtractTextPlugin = require('extract-text-webpack-plugin')
+  const SWPrecachePlugin = require('sw-precache-webpack-plugin')
 
   // vueConfig is already included in the config via LoaderOptionsPlugin
   // here we overwrite the loader config for <style lang="stylus">
@@ -37,6 +38,10 @@ if (process.env.NODE_ENV === 'production') {
       compress: {
         warnings: false
       }
+    }),
+    new SWPrecachePlugin({
+      cacheId: 'vue-hn',
+      filename: 'service-worker.js'
     })
   )
 }
