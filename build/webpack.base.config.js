@@ -3,16 +3,14 @@ const vueConfig = require('./vue-loader.config')
 
 module.exports = {
   devtool: '#source-map',
-  entry: {
-    app: './client/client-entry.js',
-    vendor: ['vue', 'vue-router', 'vuex', 'lru-cache', 'es6-promise']
-  },
+  entry: './client/client-entry.js',
   output: {
     path: path.resolve(__dirname, '../dist'),
     publicPath: '/dist/',
     filename: 'client-bundle.js'
   },
   module: {
+    noParse: /(lru-cache|es6-promise)\.js$/,
     rules: [
       {
         test: /\.vue$/,

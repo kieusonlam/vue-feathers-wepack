@@ -63,25 +63,22 @@ const ssr = (req, res) => {
   var s = Date.now()
   const context = { url: req.url }
   const renderStream = renderer.renderToStream(context)
-  let firstChunk = true
+
+  res.write(html.head)
 
   renderStream.on('data', chunk => {
-    if (firstChunk) {
-      res.write(html.head)
-      // embed initial store state
-      if (context.initialState) {
-        res.write(
-          `<script>window.__INITIAL_STATE__=${
-            serialize(context.initialState, { isJSON: true })
-          }</script>`
-        )
-      }
-      firstChunk = false
-    }
     res.write(chunk)
   })
 
   renderStream.on('end', () => {
+    // embed initial store state
+    if (context.initialState) {
+      res.write(
+        `<script>window.__INITIAL_STATE__=${
+          serialize(context.initialState, { isJSON: true })
+        }</script>`
+      )
+    }
     res.end(html.tail)
     console.log(`whole request: ${Date.now() - s}ms`)
   })
