@@ -1,11 +1,11 @@
 {
-  "host": "vue-feathers-app.feathersjs.com",
-  "port": 80,
-  "mongodb": "DATABASE_URL",
+  "host": "localhost",
+  "port": 3030,
+  "mongodb": "mongodb://localhost:27017/vueFeathers",
   "public": "../public/",
   "auth": {
     "token": {
-      "secret": "FEATHERS_AUTH_SECRET"
+      "secret": "uAhvok+bqK0rnTYQ5dogP9yVua5A/qFRXL3fXauH6/GiQPRZ3QLmagx3aEOxSLOizPuKDcoAcnyK2iy5tBB8yw=="
     },
     "local": {}
   }

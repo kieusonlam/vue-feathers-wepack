@@ -37,8 +37,13 @@ export default {
     },
 
     FETCH_POST: ({ commit, state }, { id }) => {
-      return app.service('api/posts').get(id).then(result => {
-        commit('SET_POST', { result })
+      return new Promise((resolve, reject) => {
+        app.service('api/posts').get(id).then(result => {
+          commit('SET_POST', { result })
+          resolve()
+        }).catch((err) => {
+          reject(err.message)
+        })
       })
     }
   },
