@@ -22,7 +22,7 @@
     </div>
 
     <transition :name="transition">
-      <div class="news-list" :key="totalPage" v-if="totalPage > 0">
+      <div class="news-list" :key="currentPage" v-if="currentPage > 0">
         <transition-group tag="div" name="item">
           <item v-for="item in posts" :key="item._id" :item="item">
           </item>
@@ -91,7 +91,7 @@ export default {
   watch: {
     '$route' (to, from) {
       this.loading = true
-      this.transition = to > from ? 'slide-left' : 'slide-right'
+      this.transition = to.params.page > from.params.page ? 'slide-left' : 'slide-right'
       fetchPosts(this.$store)
       this.loading = false
     }
@@ -155,6 +155,7 @@ export default {
   position absolute
   opacity 0
   transform translate(30px, 0)
+  display none
 
 @media (max-width 600px)
   .news-list
