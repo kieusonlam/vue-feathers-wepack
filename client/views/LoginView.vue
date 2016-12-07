@@ -7,13 +7,13 @@
     </div>
 
     <form @submit.prevent="onLoginSubmit">
-      <input type="email" placeholder="Email Address" autofocus required v-model="email">
-      <input type="password" placeholder="Password" required v-model="password">
-      <button type="submit">Log In</button>
-      <button type="button" @click="onSignUp()">
+      <input type="email" placeholder="Email Address" autofocus required v-model="email" v-if="!isAuthenticated">
+      <input type="password" placeholder="Password" required v-model="password" v-if="!isAuthenticated">
+      <button type="submit" v-if="!isAuthenticated">Log In</button>
+      <button type="button" @click="onSignUp()" v-if="!isAuthenticated">
           Sign Up
       </button>
-      <button type="button" @click="onLogOut()">
+      <button type="button" @click="onLogOut()" v-if="isAuthenticated">
           Log Out
       </button>
     </form>
@@ -25,8 +25,6 @@
 
 <script>
 import { mapState } from 'vuex'
-
-const checkLogin = (store) => store.dispatch('CHECK_LOGIN')
 
 export default {
   name: 'login-view',
