@@ -62,7 +62,7 @@ export default {
         email: this.email,
         password: this.password,
       }).then(() => {
-        
+        this.message = null;
       }).catch((error) => {
         this.message = error.message
       })
