@@ -31,7 +31,7 @@ export default {
           resolve(result)
           dispatch('FETCH_POSTS', 1)
         }).catch((err) => {
-          reject(err.message)
+          reject(err)
         })
       })
     },

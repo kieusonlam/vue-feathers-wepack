@@ -73,7 +73,9 @@ export default {
         title: this.title,
         content: this.content,
       }).catch((err) => {
-        this.error = err
+        if (err.code == 401) {
+          this.error = 'You need to login to create new post.'
+        }
       })
       this.title = null;
       this.content = null;
