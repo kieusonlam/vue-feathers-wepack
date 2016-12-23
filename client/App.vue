@@ -29,6 +29,11 @@ export default {
 </script>
 
 <style lang="stylus">
+*
+*:before
+*:after 
+    box-sizing border-box;
+
 body
   font-family -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Oxygen, Ubuntu, Cantarell, "Fira Sans", "Droid Sans", "Helvetica Neue", sans-serif;
   font-size 15px
@@ -38,6 +43,60 @@ body
   color #34495e
   overflow-y scroll
 
+form
+  width 280px
+  background rgba(255,255,255,.08)
+  &.error
+    border-color #8e4947
+    animation shake .5s
+  @media only screen and (max-width 414px)
+    border 0
+    background transparent
+
+input
+  color #000
+  font inherit
+  margin 0
+  height 36px
+  padding 10px
+  background-color #fff
+  border 1px solid #ccc
+  -webkit-appearance none
+  -moz-appearance textfield
+  border-radius 0
+  width 100%
+  margin-bottom 10px
+  &:focus
+    border-color #f7c723
+    outline 0
+
+textarea 
+  padding 10px
+  background-color #fff
+  border 1px solid #ccc
+  overflow auto
+  border-radius 0
+  width 100%
+  margin-bottom 10px
+
+button
+  border 1px solid #d7d7d7
+  background-color #f3f3f3
+  line-height normal
+  padding 10px 20px
+  text-decoration none
+  color #363636
+  display: inline-block
+  -webkit-transition all .3s
+  transition all .3s
+  cursor pointer
+  -webkit-appearance button
+  border-radius 0
+
+pre
+  padding 20px
+  background #ededed
+  
 a
   color #34495e
   text-decoration none
