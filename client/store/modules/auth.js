@@ -3,7 +3,6 @@ import axios from 'axios'
 
 export default {
   state: {
-    error: null,
     token: null,
     authenticated: false,
     isAuthenticating: false,
@@ -11,22 +10,21 @@ export default {
   },
   actions: {
     CHECK_LOGIN: ({ commit, state }) => {
-
       app.authenticate().then((result) => {
         commit('SET_PROFILE', result)
         commit('LOGIN_SUCCESS', result)
-      }).catch((error) => {})
-      
+      }).catch(() => {})
     },
 
     SIGNUP: ({ commit }, { email, password }) => {
-      axios.post('/api/signup', {email: email, password: password}).then((response) => console.log(response)).catch((error) => console.log(error))
+      return new Promise((resolve, reject) => {
+        axios.post('/api/signup', {email: email, password: password}).then((response) => resolve(response)).catch((error) => reject(error))
+      })
     },
 
     LOGIN: ({ commit, state }, { email, password }) => {
       return new Promise((resolve, reject) => {
         commit('LOGIN_REQUEST')
-
         app.authenticate({
           type: 'local',
           'email': email,
@@ -36,10 +34,9 @@ export default {
           commit('LOGIN_SUCCESS', result)
           resolve()
         }).catch((error) => {
-          commit('LOGIN_FAILURE', error)
+          commit('LOGIN_FAILURE')
           reject(error)
         })
-
       })
     },
 
@@ -56,14 +53,12 @@ export default {
       state.isAuthenticating = true
     },
 
-    LOGIN_FAILURE: (state, error) => {
-      state.error = error
+    LOGIN_FAILURE: (state) => {
       state.isAuthenticating = false
     },
 
     LOGIN_SUCCESS: (state, result) => {
       state.token = result.token
-      state.error = null
       state.isAuthenticating = false
       state.authenticated = true
     },
@@ -78,12 +73,12 @@ export default {
       state.profile = { email: result.data.email }
     }
   },
-  
+
   getters: {
     isAuthenticated: (state) => {
       app.authenticate().then((result) => {
         return true
-      }).catch((error) => {
+      }).catch(() => {
         return false
       })
     }

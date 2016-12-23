@@ -9,6 +9,12 @@ module.exports = function (app) {
       password: body.password
     })
     .then(user => res.send('Welcome! You have signed up successfully.'))
-    .catch(next)
+    .catch(error => {
+      if (error.code == 409) {
+        res.send('This email is already in use.')
+      } else {
+        next(error)
+      }
+    })
   }
 }

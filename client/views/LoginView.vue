@@ -2,8 +2,12 @@
   <div class="login-view">
     <h1>Login</h1>
 
-    <div v-if="error">
-      {{ error.message }}
+    <div v-if="profile">
+      You are logged in as <strong>{{ profile.email }}</strong>.<br/><br/>Now you can create new blog post :)
+    </div>
+
+    <div v-if="message">
+      {{ message }}
     </div>
 
     <form @submit.prevent="onLoginSubmit">
@@ -31,11 +35,12 @@ export default {
   data () {
     return {
       email: null,
-      password: null
+      password: null,
+      message: null
     }
   },
   computed: mapState({
-    error: (state) => state.auth.error,
+    profile: (state) => state.auth.profile,
     isAuthenticating: (state) => state.auth.isAuthenticating,
     isAuthenticated: (state) => state.auth.authenticated
   }),
@@ -44,6 +49,9 @@ export default {
       this.$store.dispatch('SIGNUP', {
         email: this.email,
         password: this.password,
+      }).then((res) => this.message = res.data)
+      .catch((error) => {
+        this.message = error.message
       })
     },
     onLoginSubmit() {
@@ -53,9 +61,10 @@ export default {
       this.$store.dispatch('LOGIN', {
         email: this.email,
         password: this.password,
-      })
-      .then(() => {
-        this.$router.push({ path: '/' })
+      }).then(() => {
+        
+      }).catch((error) => {
+        this.message = error.message
       })
     },
     onLogOut() {
@@ -70,31 +79,4 @@ export default {
   background-color #fff
   box-sizing border-box
   padding 2em 3em
-
-form
-  width 280px
-  background rgba(255,255,255,.08)
-  &.error
-    border-color #8e4947
-    animation shake .5s
-  @media only screen and (max-width 414px)
-    border 0
-    background transparent
-
-input
-  display block
-  margin-top 12px
-  border 0
-  background #fff
-  outline none
-  width 100%
-
-button
-  display block
-  margin-top 12px
-  width 100%
-
-pre
-  padding 20px
-  background #ededed
 </style>
