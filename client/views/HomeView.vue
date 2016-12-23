@@ -7,7 +7,7 @@
       <p>Blogpost below</p>
       <form @submit.prevent="onPostSubmit">
         <input type="title" placeholder="Post Title" autofocus required v-model="title">
-        <input type="content" placeholder="Post Content" required v-model="content">
+        <textarea type="content" placeholder="Post Content" required v-model="content"></textarea>
         <button type="submit">Submit</button>
       </form>
       <pre v-if="error">{{ error }}</pre>
