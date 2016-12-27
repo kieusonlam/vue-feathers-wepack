@@ -49,7 +49,7 @@ export default {
 
     UPDATE_POST: ({ commit, dispatch, state }, { id, title, content }) => {
       return new Promise((resolve, reject) => {
-        app.service('api/posts').update(id, {
+        app.service('api/posts').patch(id, {
           title,
           content
         }).then((result) => {
