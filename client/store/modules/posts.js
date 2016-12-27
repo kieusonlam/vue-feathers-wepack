@@ -45,6 +45,29 @@ export default {
           reject(err.message)
         })
       })
+    },
+
+    UPDATE_POST: ({ commit, dispatch, state }, { id, title, content }) => {
+      return new Promise((resolve, reject) => {
+        app.service('api/posts').update(id, {
+          title,
+          content
+        }).then((result) => {
+          resolve('Post was updated successfully!')
+        }).catch((err) => {
+          reject(err)
+        })
+      })
+    },
+
+    REMOVE_POST: ({ commit, dispatch, state }, { id }) => {
+      return new Promise((resolve, reject) => {
+        app.service('api/posts').remove(id).then((result) => {
+          resolve('Post was removed successfully!')
+        }).catch((err) => {
+          reject(err)
+        })
+      })
     }
   },
 
