@@ -53,6 +53,7 @@ export default {
           title,
           content
         }).then((result) => {
+          commit('SET_POST', { result })
           resolve('Post was updated successfully!')
         }).catch((err) => {
           reject(err)

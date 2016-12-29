@@ -4,14 +4,19 @@
       <div class="item-view-header">
         <h1 v-if="!editing">{{ item.title }}</h1>
         <input v-else v-model="item.title"></input>
+        <div class="meta">
+          <span class="author" v-if="item.authorInfo">Posted by {{ item.authorInfo.email }}</span>
+          <span> at {{ item.createdAt | datetime }}</span>
+        </div>
       </div>
-      <div class="item-view-content" v-if="!editing">
-        {{ item.content }}
-      </div>
+      <div class="item-view-content" v-if="!editing" v-html="item.content"></div>
       <div class="item-view-content" v-else>
         <textarea v-model="item.content"></textarea>
+      </div><br/>
+      <div v-if="error">
+        {{ error }}<br/><br/>
       </div>
-      <div>
+      <div v-if="authenticated">
         <button @click="editPost" v-if="editing">Update</button>
         <button @click="editPost" v-else>Edit</button>
         <button @click="removePost">Remove</button>
@@ -33,12 +38,16 @@ export default {
   data () {
     return {
       loading: true,
-      editing: false
+      editing: false,
+      error: null
     }
   },
   computed: {
     item () {
       return this.$store.state.posts.single
+    },
+    authenticated () {
+      return this.$store.state.auth.authenticated
     }
   },
   methods: {
@@ -54,13 +63,20 @@ export default {
         title: this.item.title,
         content: this.item.content,
       }).then(message => console.log(message))
-      .catch((err) => console.log(err))
+      .catch((err) => {
+        fetchPost(this.$store)
+        console.log(err)
+        this.error = "You cannot edit this post."
+      })
     },
     removePost: function () {
       this.$store.dispatch('REMOVE_POST', {
         id: this.$store.state.route.params.id
       }).then(message => this.$router.push({ path: '/' }))
-      .catch((err) => console.log(err))
+      .catch((err) => {
+        console.log(err)
+        this.error = "You cannot remove this post."
+      })
     }
   },
   // on the server, only fetch the item itself
