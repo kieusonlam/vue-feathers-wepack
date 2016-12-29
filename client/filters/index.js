@@ -1,3 +1,9 @@
+import moment from 'moment'
+
+export function datetime (time) {
+  return moment(time).format('MMMM Do YYYY, h:mm:ss a')
+}
+
 export function host (url) {
   const host = url.replace(/^https?:\/\//, '').replace(/\/.*$/, '')
   const parts = host.split('.').slice(-3)
