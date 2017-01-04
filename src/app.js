@@ -1,12 +1,14 @@
 'use strict'
 
-process.env.VUE_ENV = 'server'
-const isProd = process.env.NODE_ENV === 'production'
-
 const fs = require('fs')
 const path = require('path')
 const serialize = require('serialize-javascript')
 const resolve = file => path.resolve(__dirname, file)
+
+const isProd = process.env.NODE_ENV === 'production'
+const serverInfo =
+  `express/${require('express/package.json').version} ` +
+  `vue-server-renderer/${require('vue-server-renderer/package.json').version}`
 
 const feathers = require('feathers')
 const compress = require('compression')
@@ -67,6 +69,8 @@ const ssr = (req, res) => {
   }
 
   res.setHeader('Content-Type', 'text/html')
+  res.setHeader('Server', serverInfo)
+
   var s = Date.now()
   const context = { url: req.url }
   const renderStream = renderer.renderToStream(context)
