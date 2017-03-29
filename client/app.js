@@ -20,7 +20,7 @@ Object.keys(filters).forEach(key => {
 const app = new Vue({
   router,
   store,
-  ...App // Object spread copying everything from App.vue
+  render: h => h(App)
 })
 
 // expose the app, the router and the store.
