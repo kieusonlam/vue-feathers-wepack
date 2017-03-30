@@ -3,12 +3,18 @@
 const process = require('./process');
 
 const globalHooks = require('../../../hooks');
-const hooks = require('feathers-hooks');
+const hooks = require('feathers-hooks-common');
 const auth = require('feathers-authentication').hooks;
 
-const populateAuthor = hooks.populate('authorInfo', {
-  service: 'users',
-  field: 'author'
+const populateAuthor = hooks.populate({
+  schema: {
+    include: [{
+      service: 'users',
+      nameAs: 'authorInfo',
+      parentField: 'author',
+      childField: '_id'
+    }]
+  }
 });
 
 exports.before = {
